@@ -1,95 +1,66 @@
 #include <stdio.h>
-#define size 5
-//create a queue as a gloabal variables
-int que[size], front = -1, rear = -1;
+#define SIZE 5
 
-//enque function
-void enqueue(int value) {
-    if (rear+1 == size) {
-        printf("queue is overflow\n");
-        return;
+//Basic value initialisation
+int queue[SIZE], front = -1, rear = -1;
+
+//Function created to handle enqueue
+void enqueue(int item){
+    if(rear == SIZE-1){
+        printf("Can't enqueue as the queue is full\n");
     }
-    else {
-        if (front == -1) {
-            front = 0; //if queue was esmpty, now front shows on the index 0, not -1
+    else{
+        //The first element condition
+        if(front == -1){
+            front = 0;
         }
-        rear++;
-        que[rear] = value;
-        for (int i = 0; i <= rear; i++) {
-            printf("%d<-", que[i]);
-        }
-        printf("\n");
-    }
+        
+        rear = rear + 1;
+        queue[rear] = item;
+        printf("We have enqueued %d\n",item);
+   }
 }
 
-//deque function
-void dequeue() {
-    if (rear==-1) {
-        printf("queue is empty, nothing to delete\n");
-        return;
+//Function created to handle dequeue
+void dequeue(){
+    if(front == -1){
+        printf("Can't dequeue as the queue is empty\n");
     }
-    else if (rear==0) {
-        rear--;
-        printf("last element was deleted, now queue is empty\n");
-    }
-    else {
-        rear--;
-        for (int i = front; i <= rear; i++) {
-            que[i] = que[i+1];
+    else{
+        printf("We have dequeued : %d\n", queue[front]);
+        front = front + 1;
+        
+        //Only happens when the last element was dequeued
+        if(front > rear){
+	        front = -1;
+	        rear = -1;
         }
-        for (int i = front; i <= rear; i++) {
-            printf("%d<-", que[i]);
-        }
-        printf("\n");
-    }
+   }
 }
 
-void dispay_front() {
-    if (rear == -1) {
-        printf("queque is emty, nothing to display");
-        return;
-    }
-    else {
-        printf("first element is queue %d\n", que[front]);
-    }
-
+//function to print the queue
+void printQueue(){
+    if(front == -1)
+        printf("\nUnable to display as queue is empty");
+    else{
+        int i;
+        printf("\nThe queue now is:\n");
+        for(i = front; i <= rear; i++)
+	        printf("%d<-",queue[i]);
+   }
 }
-
-void traverse() {
-    if (rear == -1) {
-        printf("queque is emty, nothing to display");
-        return;
-    }
-    else {
-        printf("right now queque is:\n");
-        for (int i = front; i <= rear; i++) {
-            printf("%d<-", que[i]);
-        }
-        printf("\n");
-    }
-}
-
 
 int main() {
-    enqueue(5);
-    enqueue(4);
-    enqueue(3);
+    //enqueue begins here
     enqueue(2);
-    enqueue(1);
-    enqueue(2222); //this should give overflow
-
-    dequeue();
-    dequeue();
-    dequeue();
-    
-    dispay_front();
-
+    enqueue(4);
+    enqueue(6);
     enqueue(8);
+   
+    //dequeue beings here
     dequeue();
-    dispay_front();
-
+    dequeue();
+   
+    printQueue();
     return 0;
 }
-
-
-
